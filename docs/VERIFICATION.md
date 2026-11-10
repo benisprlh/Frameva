@@ -33,6 +33,16 @@ Playwright browser recording or ScreenCaptureKit recording ran in this session.
 
 ## Native static review
 
+A subsequent user-supplied Mac build log confirmed Python 3.12.16 arm64 and
+dependency installation, then failed in PyInstaller 6.22.3 while discovering
+`mcp.cli` from MCP 1.30.0: its optional `typer` dependency was absent, causing an
+import-time `SystemExit`. The spec now filters that optional CLI before recursive
+discovery, excludes its raw sources, and excludes it from Analysis. Frameva's
+own CLI and MCP server/client modules remain included. This failure was reproduced
+with the same PyInstaller/MCP versions on Linux, and the corrected collection
+phase completed without installing `typer`. The 24 MCP tests also passed. This
+does not establish that the subsequent Swift build or Mac bundle checks pass.
+
 The native implementation was checked against primary Apple references. Review
 identified and corrected recording-finalization timing, capture session identity,
 busy-operation import handoff, stale project/preview results, worker ownership,

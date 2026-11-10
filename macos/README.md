@@ -40,6 +40,13 @@ again. Selecting the versioned path avoids depending on Homebrew's default
 Python 3.11–3.13 can also be selected with `FRAMEVA_BUILD_PYTHON`; full Xcode is
 still required as described above.
 
+If an older checkout fails in PyInstaller with `Error: typer is required` or
+`SystemExit: 1` from `mcp/cli/cli.py`, update with `git pull --ff-only` and rerun
+the same build command. The packaging spec now excludes the MCP SDK's optional
+development CLI before module discovery; Frameva uses its own CLI to run the MCP
+server. Python does not need reinstalling, and this fix does not require adding
+`typer` or the SDK's `[cli]` extra.
+
 From the repository root on the target Mac:
 
 ```bash

@@ -1,13 +1,22 @@
 # PyInstaller specification for a nested, architecture-native macOS helper bundle.
 from pathlib import Path
 import importlib.util
-from PyInstaller.utils.hooks import collect_all, collect_submodules
+from PyInstaller.utils.hooks import collect_all, collect_submodules, is_module_or_submodule
 
 root = Path(SPECPATH).parent
 macos = root / "macos"
 datas, binaries, hiddenimports = [], [], []
 for package in ("frameva", "imageio_ffmpeg", "playwright", "mcp"):
-    package_data, package_binaries, package_hidden = collect_all(package)
+    collection_options = {}
+    if package == "mcp":
+        # Frameva runs FastMCP through its own CLI. The SDK's optional CLI exits
+        # at import time without typer, so it must be filtered before discovery;
+        # Analysis.excludes alone is too late. Do not copy its raw sources either.
+        collection_options = {
+            "filter_submodules": lambda name: not is_module_or_submodule(name, "mcp.cli"),
+            "exclude_datas": ["cli"],
+        }
+    package_data, package_binaries, package_hidden = collect_all(package, **collection_options)
     datas.extend(package_data); binaries.extend(package_binaries); hiddenimports.extend(package_hidden)
 for package in ("uvicorn", "fastapi", "starlette", "pydantic", "pydantic_core", "httpx", "PIL", "multipart"):
     hiddenimports.extend(collect_submodules(package))
@@ -38,7 +47,7 @@ binaries.extend(explicit_code)
 
 a = Analysis([str(macos / "worker_entry.py")], pathex=[str(root)], binaries=binaries,
              datas=datas, hiddenimports=sorted(set(hiddenimports)), hookspath=[],
-             runtime_hooks=[], excludes=["tkinter", "matplotlib", "pytest"], noarchive=False)
+             runtime_hooks=[], excludes=["tkinter", "matplotlib", "pytest", "mcp.cli"], noarchive=False)
 pyz = PYZ(a.pure)
 exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name="frameva-worker", debug=False,
           bootloader_ignore_signals=False, strip=False, upx=False, console=True,
