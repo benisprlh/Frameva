@@ -4,6 +4,11 @@ Date: 10 November 2026. Execution host: Linux x86_64, Python 3.12.14. Native Mac
 source was reviewed against Apple API documentation, but this host has no Swift
 compiler, Mac SDK, ScreenCaptureKit runtime or Mac desktop.
 
+The DMG packaging addition includes syntax/preflight checks on Linux only.
+`hdiutil` creation, read-only mounting, signing and notarization still require
+execution on macOS. The first native GitHub run did not start because GitHub
+reported an account billing lock; it produced no native artifacts.
+
 ## Executed
 
 | Check | Result |

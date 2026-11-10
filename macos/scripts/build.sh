@@ -1,5 +1,11 @@
 #!/bin/bash
 set -euo pipefail
+package_dmg=false
+if [[ $# -eq 1 && "$1" == --dmg ]]; then
+  package_dmg=true
+elif [[ $# -ne 0 ]]; then
+  echo 'Usage: bash macos/scripts/build.sh [--dmg]' >&2; exit 2
+fi
 macos_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 project_dir="$(cd -- "$macos_dir/.." && pwd)"
 cd "$project_dir"
@@ -40,3 +46,6 @@ cp "$project_dir/LICENSE" "$app_dir/Contents/Resources/LICENSE.txt"
 codesign --verify --deep --strict --verbose=2 "$app_dir"
 "$venv_dir/bin/python" "$macos_dir/scripts/smoke_bundle.py" "$app_dir"
 printf '%s\n' "Built $app_dir" "Native capture still requires interactive testing on this Mac."
+if [[ "$package_dmg" == true ]]; then
+  bash "$macos_dir/scripts/package-dmg.sh" "$app_dir"
+fi

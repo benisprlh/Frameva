@@ -50,6 +50,39 @@ The optional `FRAMEVA_BUILD_PYTHON` environment variable selects the build
 interpreter. It must match the Mac architecture. Builds use the installed source
 package and no `PYTHONPATH` override.
 
+## Build a drag-to-Applications DMG
+
+Build and package in one command on a Mac with the requirements above:
+
+```bash
+FRAMEVA_BUILD_PYTHON=python3.12 bash macos/scripts/build.sh --dmg
+```
+
+This builds the app and bundled worker first, runs their checks, then creates
+`dist/Frameva-0.2.0-macos-arm64-development.dmg` on Apple Silicon or the
+`x86_64` equivalent on Intel. The disk image contains `Frameva.app` and an
+Applications shortcut. Packaging verifies the disk image and the app signature
+inside a read-only mounted copy before publishing it. It refuses to overwrite an
+existing DMG; move the old output aside or choose a new output filename.
+
+To package an existing successful build without rebuilding:
+
+```bash
+bash macos/scripts/package-dmg.sh "dist/native-$(uname -m)/Frameva.app"
+```
+
+The native GitHub Actions workflow also runs this packaging step. **Only a
+successful run** provides the DMG inside its `Frameva-macOS-…-development`
+artifact. Download and unzip that artifact, open the DMG, drag Frameva to
+Applications, eject it, and open the installed app. End users of the packaged app
+need neither Xcode nor Python. Chromium remains an optional in-app download for
+scripted browser flows. The CI artifact is ad-hoc signed, not notarized.
+
+If GitHub reports an account billing lock, no build or download is produced;
+resolve the account issue and run **Actions → Native macOS application → Run
+workflow**, or build locally. Packaging scripts cannot bypass that lock. No DMG
+has been built or mounted on the Linux development host.
+
 ## Run the native UI during development
 
 Install the worker first, then run SwiftUI with the installed environment:
@@ -186,6 +219,25 @@ After configuring an Apple notarytool keychain profile yourself:
 bash macos/scripts/notarize.sh \
   "$PWD/dist/native-arm64/Frameva.app" YOUR_NOTARY_KEYCHAIN_PROFILE
 ```
+
+For DMG distribution, instead build with Developer ID and package the signed app
+with the same identity, then notarize and staple the outermost DMG:
+
+```bash
+FRAMEVA_SIGN_IDENTITY='Developer ID Application: YOUR NAME (TEAMID)' \
+  FRAMEVA_BUILD_PYTHON=python3.12 bash macos/scripts/build.sh --dmg
+bash macos/scripts/notarize.sh \
+  "$PWD/dist/Frameva-0.2.0-macos-$(uname -m)-signed.dmg" \
+  YOUR_NOTARY_KEYCHAIN_PROFILE
+```
+
+The `signed` filename indicates signing intent, not successful
+notarization; the notarization script must finish with a successful Gatekeeper
+assessment. Its final SHA-256 reflects the stapled image. Do not submit the
+development DMG as though it were a signed public release. These steps follow
+Apple's [packaging](https://developer.apple.com/documentation/xcode/packaging-mac-software-for-distribution)
+and [notarization](https://developer.apple.com/documentation/security/customizing-the-notarization-workflow)
+guidance.
 
 No signing credentials are embedded or acquired by these scripts. Review bundled
 third-party notices and the exact FFmpeg build's distribution obligations before

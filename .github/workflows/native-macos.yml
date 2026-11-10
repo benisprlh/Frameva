@@ -34,8 +34,8 @@ jobs:
           uname -m
           xcodebuild -version
           swift --version
-      - name: Build, test, ad-hoc sign, and smoke bundled worker
-        run: bash macos/scripts/build.sh
+      - name: Build, test, ad-hoc sign, smoke worker, and verify DMG
+        run: bash macos/scripts/build.sh --dmg
       - name: Archive the actual native app
         run: |
           build_arch="$(uname -m)"
@@ -43,6 +43,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Frameva-macOS-${{ runner.arch }}-development
-          path: dist/Frameva-macos-*-unsigned.zip
+          path: |
+            dist/Frameva-macos-*-unsigned.zip
+            dist/Frameva-*-macos-*-development.dmg
           if-no-files-found: error
           retention-days: 14

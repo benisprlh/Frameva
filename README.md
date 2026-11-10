@@ -31,6 +31,12 @@ architecture you want to distribute. The Python/FFmpeg helper stays inside the
 app bundle. Developer builds and public distribution have different signing
 requirements.
 
+For a drag-to-Applications disk image, build on a Mac with
+`FRAMEVA_BUILD_PYTHON=python3.12 bash macos/scripts/build.sh --dmg`.
+The native workflow uploads the development DMG only after its build, tests and
+image verification succeed. This source checkout does not include a compiled
+DMG; packaging and public-release notarization are described in the native guide.
+
 | Recording method | Best for | How it works |
 | --- | --- | --- |
 | Native window recording | Visible Mac apps and authenticated browser sessions | Select a window in the system picker, record the workflow, stop and import the completed MP4 |
