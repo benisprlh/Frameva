@@ -18,6 +18,18 @@ if [[ "$build_arch" != arm64 && "$build_arch" != x86_64 ]]; then
   echo "Unsupported native architecture: $build_arch" >&2; exit 1
 fi
 native_python="${FRAMEVA_BUILD_PYTHON:-python3}"
+if ! command -v "$native_python" >/dev/null 2>&1; then
+  printf 'Python interpreter not found: %s\n' "$native_python" >&2
+  cat >&2 <<'EOF'
+Install a native Python 3.11–3.13, or set FRAMEVA_BUILD_PYTHON to an existing interpreter.
+If Homebrew is installed, run these commands from the Frameva directory:
+  brew install python@3.12
+  FRAMEVA_BUILD_PYTHON="$(brew --prefix python@3.12)/bin/python3.12" bash macos/scripts/build.sh --dmg
+Homebrew installation instructions: https://brew.sh
+Full Xcode 16+ and macOS 15+ are also required for the native build.
+EOF
+  exit 1
+fi
 "$native_python" -c 'import platform,sys; assert (3,11)<=sys.version_info[:2]<(3,14), "Python 3.11–3.13 required"; print("Building native",platform.machine(),"worker with",sys.version.split()[0])'
 python_arch="$("$native_python" -c 'import platform; print(platform.machine())')"
 if [[ "$python_arch" != "$build_arch" ]]; then

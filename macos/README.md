@@ -24,6 +24,22 @@ signing require additional interactive/native checks.
 
 ## Build the complete application
 
+If `python3.12: command not found` appears, Python 3.12 is either not installed
+or not on your shell's PATH. With [Homebrew](https://brew.sh) already installed,
+install the versioned interpreter and select it by its absolute path:
+
+```bash
+brew install python@3.12
+FRAMEVA_BUILD_PYTHON="$(brew --prefix python@3.12)/bin/python3.12" \
+  bash macos/scripts/build.sh --dmg
+```
+
+Run this from the Frameva repository directory. There is no need to clone it
+again. Selecting the versioned path avoids depending on Homebrew's default
+`python3` version or on a versioned executable being in PATH. An existing native
+Python 3.11–3.13 can also be selected with `FRAMEVA_BUILD_PYTHON`; full Xcode is
+still required as described above.
+
 From the repository root on the target Mac:
 
 ```bash
