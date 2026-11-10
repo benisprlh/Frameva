@@ -1,0 +1,16 @@
+.venv/
+.venv-*/
+.build/
+.qa-venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.env
+.frameva/
+.DS_Store
+.pytest_cache/
+*.sqlite*
+*.token
+qa-data/

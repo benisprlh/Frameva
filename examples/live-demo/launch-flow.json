@@ -1,0 +1,27 @@
+{
+  "name": "Orbit — Plan, complete, and measure a launch",
+  "base_url": "http://127.0.0.1:4173",
+  "width": 1440,
+  "height": 900,
+  "fps": 30,
+  "max_duration": 90,
+  "feature_titles": ["Create tasks", "Track project progress", "Filter tasks", "Inspect live analytics"],
+  "steps": [
+    {"action": "assert_text", "selector": "h1", "text": "Launch with clarity.", "label": "Open the real workspace"},
+    {"action": "wait", "seconds": 1.5, "label": "Establish the launch board"},
+    {"action": "click", "selector": "[data-testid='add-task']", "label": "Create a new launch task"},
+    {"action": "fill", "selector": "[data-testid='task-title']", "value": "Share the launch with the world", "label": "Name the next step"},
+    {"action": "wait", "seconds": 0.8, "label": "Show the completed form"},
+    {"action": "click", "selector": "[data-testid='create-task']", "label": "Save the task"},
+    {"action": "assert_text", "selector": "[data-testid='task-list']", "text": "Share the launch with the world", "label": "Verify the task exists"},
+    {"action": "wait", "seconds": 1, "label": "Show the new task in the board"},
+    {"action": "click", "selector": "[data-testid='toggle-record']", "label": "Complete the recorded walkthrough"},
+    {"action": "assert_text", "selector": "#completed-count", "text": "3", "label": "Verify progress updated"},
+    {"action": "click", "selector": "[data-testid='filter-done']", "label": "Filter completed work"},
+    {"action": "assert_text", "selector": "[data-testid='task-list']", "text": "Record the launch walkthrough", "label": "Verify the completed task appears"},
+    {"action": "wait", "seconds": 1.5, "label": "Hold on completed work"},
+    {"action": "click", "selector": "[data-testid='nav-analytics']", "label": "Open live analytics"},
+    {"action": "assert_text", "selector": "[data-testid='analytics-completed']", "text": "3", "label": "Verify analytics match the board"},
+    {"action": "wait", "seconds": 2.5, "label": "Close on real launch progress"}
+  ]
+}

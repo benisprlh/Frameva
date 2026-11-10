@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orbit — Launch workspace demo</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="#"><span class="brand-mark">o</span> orbit<span class="brand-dot">.</span></a>
+  <div class="workspace"><span class="workspace-icon">S</span><div>Studio workspace<small>PRO PLAN · DEMO DATA</small></div><span class="chevron">⌄</span></div>
+  <p class="nav-heading">WORKSPACE</p>
+  <button class="nav active" data-view="board" data-testid="nav-board"><span>▦</span> Launch board <b>06</b></button>
+  <button class="nav" data-view="analytics" data-testid="nav-analytics"><span>↗</span> Analytics</button>
+  <div class="sidebar-bottom"><div class="team-stack"><i>BS</i><i>AK</i><i>JL</i><span>Built together.</span></div><div class="storage"><span>Your launch is taking shape.</span><div><i></i></div><small>Everything here is local demo data.</small></div><button class="reset" id="reset-demo">↺ Reset demo</button><div class="profile"><span>BS</span><div>Beni Saprulah<small>Workspace owner</small></div><b>⌘</b></div></div>
+</aside>
+<div class="app-shell">
+<header><div class="breadcrumb">Workspace <span>/</span> <strong id="view-name">Launch board</strong></div><div class="header-right"><span class="live-indicator"></span> All changes saved locally <span class="user-avatar">BS</span></div></header>
+<main>
+  <section class="view" id="board-view">
+    <div class="page-heading"><div><p class="eyebrow">YOUR NEXT BIG THING</p><h1>Launch with clarity.</h1><p>A little less busywork. A lot more momentum.</p></div><button class="primary" id="add-task" data-testid="add-task">＋ Add task</button></div>
+    <div class="launch-banner"><div class="banner-orbit"><i></i><i></i><span>✳</span></div><div><p>PROJECT / FRAMEVA LAUNCH</p><h2>Make what you've built impossible to miss.</h2><span>One shared plan. Every detail in its place.</span></div><div class="banner-number"><strong id="progress-number">0%</strong><span>READY FOR LIFTOFF</span></div></div>
+    <div class="metrics"><article><span>Active tasks</span><strong id="active-count">0</strong><small><i></i> Keep the important work moving</small></article><article><span>Completed</span><strong id="completed-count">0</strong><small class="positive">↑ Building momentum, one task at a time</small></article><article><span>Team members</span><strong>3<span class="mini-avatars">BS · AK · JL</span></strong><small>Everyone working toward the same launch</small></article></div>
+    <div class="board-toolbar"><div class="filters" role="group" aria-label="Task filter"><button class="active" data-filter="all" data-testid="filter-all">All tasks <span id="total-count">0</span></button><button data-filter="active" data-testid="filter-active">In progress</button><button data-filter="done" data-testid="filter-done">Completed</button></div><label class="search"><span>⌕</span><input id="search" data-testid="search" placeholder="Search your tasks…" aria-label="Search tasks"><kbd>⌘ K</kbd></label></div>
+    <div class="task-list" id="task-list" data-testid="task-list"></div>
+    <p class="board-footer"><span class="green-dot"></span> Your next launch, under control. <span>This is a functioning demo app for real workflow recordings.</span></p>
+  </section>
+  <section class="view" id="analytics-view" hidden>
+    <div class="page-heading"><div><p class="eyebrow">SEE THE BIG PICTURE</p><h1>Momentum, made visible.</h1><p>Real numbers, updated from your launch board.</p></div><span class="period">THIS WORKSPACE · LIVE</span></div>
+    <div class="analytics-grid"><article class="chart-card"><p class="eyebrow">LAUNCH READINESS</p><h2>Small wins. Real progress.</h2><div class="donut" id="donut"><div><strong id="analytics-percent">0%</strong><span>COMPLETE</span></div></div><div class="chart-legend"><span><i class="lime"></i> Completed <b id="legend-done">0</b></span><span><i></i> Remaining <b id="legend-active">0</b></span></div></article><article class="insights-card"><p class="eyebrow">WORKSPACE INSIGHTS</p><h2>You're moving forward.</h2><div class="insight"><span>Completed tasks</span><strong id="analytics-completed" data-testid="analytics-completed">0</strong></div><div class="insight"><span>Total tasks</span><strong id="analytics-total">0</strong></div><div class="insight"><span>Open priorities</span><strong id="analytics-priorities">0</strong></div><p class="insights-note">These metrics reflect the tasks you actually create and complete. No fabricated usage data, no simulated chart updates.</p><button class="primary" data-view="board" data-testid="return-board">Back to your board ↗</button></article></div>
+    <div class="milestone"><span>✦</span><div><p>EVERY STEP COUNTS</p><h3>A clearer path from idea to launch.</h3><p>Keep your team aligned and celebrate the work that gets you there.</p></div></div>
+  </section>
+</main>
+</div>
+<dialog id="task-dialog"><form id="task-form"><div class="dialog-header"><span class="eyebrow">KEEP YOUR LAUNCH MOVING</span><button type="button" class="close" id="close-dialog" aria-label="Close">×</button></div><h2>What's next?</h2><p>Give your next step a clear name.</p><label>Task name<input id="task-title" data-testid="task-title" name="title" placeholder="A small step toward a great launch" required maxlength="100"></label><div class="form-grid"><label>Category<select name="category" data-testid="task-category"><option>Product</option><option>Design</option><option>Marketing</option><option>Engineering</option></select></label><label>Priority<select name="priority"><option>Medium</option><option>High</option><option>Low</option></select></label></div><div class="dialog-footer"><button type="button" class="secondary" id="cancel-dialog">Cancel</button><button class="primary" type="submit" data-testid="create-task">Create task ↗</button></div></form></dialog>
+<div class="toast" id="toast" role="status" data-testid="toast" hidden></div>
+<script src="app.js"></script>
+</body></html>

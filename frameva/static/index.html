@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101210">
+  <meta name="description" content="Turn your application's source code into a product launch film. Local-first, open-source video studio with Codex and Claude Code integration.">
+  <title>Frameva — Product launch studio</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23b8ff65'/%3E%3Cpath d='M18 16h30v9H28v8h16v9H28v15H18z' fill='%23101210'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div id="login" class="login-page" hidden>
+    <div class="login-card">
+      <div class="brand"><span class="brandmark" aria-hidden="true">F<span></span></span><span>frameva<span class="brand-dot">.</span></span></div>
+      <p class="eyebrow">YOUR STUDIO. YOUR MACHINE.</p>
+      <h1>Make your next<br>launch a film.</h1>
+      <p class="muted">Start Frameva from your terminal to open a signed-in studio, or enter your local access token below.</p>
+      <form id="login-form"><label for="token">Local access token</label><input id="token" name="token" type="password" autocomplete="off" placeholder="Paste your Frameva token" required minlength="32"><button class="button primary full" type="submit">Open studio <span aria-hidden="true">↗</span></button><p id="login-error" class="error-text" role="alert"></p></form>
+      <p class="small muted">Find your token with <code>frameva token</code>. It stays on this machine.</p>
+    </div>
+    <div class="login-art" aria-hidden="true"><div class="orbit one"></div><div class="orbit two"></div><div class="orbit three"></div><span class="art-label">FROM FIRST COMMIT<br>TO FIRST IMPRESSION.</span><span class="art-index">FRAMEVA / STUDIO 01</span></div>
+  </div>
+  <div id="app" class="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-action="home" aria-label="Frameva home"><span class="brandmark" aria-hidden="true">F<span></span></span><span>frameva<span class="brand-dot">.</span></span></a>
+      <div class="workspace-label"><span class="status-dot"></span> Local workspace <span class="tiny-tag">OSS</span></div>
+      <button class="button new-project" data-action="new-project"><span aria-hidden="true">＋</span> New project <kbd>N</kbd></button>
+      <div class="nav-heading">YOUR PRODUCTIONS <span id="project-count">0</span></div>
+      <nav id="project-list" class="project-list" aria-label="Projects"></nav>
+      <div class="sidebar-bottom">
+        <button class="nav-button" data-action="settings"><span class="nav-icon">⚙</span> Render engines <span class="engine-dot" id="engine-dot"></span></button>
+        <button class="nav-button" data-action="integrations"><span class="nav-icon code-icon">⌘</span> Connect your agent <span class="tiny-tag">MCP</span></button>
+        <div class="local-card"><span class="local-symbol">↗</span><div><strong>Built for your machine.</strong><p>Mac, Windows, and your ideas.</p></div></div>
+        <div class="sidebar-footer"><span id="version-label">FRAMEVA</span><button class="text-button" data-action="logout" title="Lock the studio">Lock studio</button></div>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <button class="icon-button mobile-toggle" data-action="toggle-sidebar" aria-label="Toggle navigation">☰</button>
+        <div class="breadcrumb"><span>Workspace</span><span class="slash">/</span><strong id="project-name">Your productions</strong><button id="project-menu" class="icon-button" data-action="project-menu" aria-label="Project options" hidden>···</button></div>
+        <div class="top-actions"><span class="local-badge"><span class="status-dot"></span> Private & local</span><button id="export-button" class="button primary compact" data-action="export" hidden>Export film <span aria-hidden="true">↗</span></button></div>
+      </header>
+      <main id="main" tabindex="-1"></main>
+    </div>
+  </div>
+  <dialog id="modal" class="modal"><div class="modal-head"><h2 id="modal-title"></h2><button class="icon-button" data-action="close-modal" aria-label="Close dialog">×</button></div><div id="modal-body"></div></dialog>
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+  <input type="file" id="asset-input" hidden multiple accept="image/png,image/jpeg,image/webp,video/mp4,video/webm,audio/mpeg,audio/wav,audio/mp4,audio/ogg">
+  <input type="file" id="source-input" hidden accept=".zip,application/zip">
+  <input type="file" id="workflow-input" hidden accept=".json,application/json">
+</body>
+</html>

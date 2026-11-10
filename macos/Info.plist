@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>CFBundleIdentifier</key><string>dev.frameva.studio</string>
+  <key>CFBundleName</key><string>Frameva</string>
+  <key>CFBundleDisplayName</key><string>Frameva</string>
+  <key>CFBundleExecutable</key><string>Frameva</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleShortVersionString</key><string>0.2.0</string>
+  <key>CFBundleVersion</key><string>2</string>
+  <key>LSMinimumSystemVersion</key><string>15.0</string>
+  <key>NSPrincipalClass</key><string>NSApplication</string>
+  <key>NSHighResolutionCapable</key><true/>
+  <key>NSSupportsAutomaticGraphicsSwitching</key><true/>
+  <key>NSMicrophoneUsageDescription</key><string>Frameva records microphone narration only when you enable it for an app demonstration.</string>
+  <key>NSScreenCaptureUsageDescription</key><string>Choose an app window or display to record its real interactions for your product launch video.</string>
+  <key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>
+</dict></plist>

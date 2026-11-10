@@ -1,0 +1,11 @@
+# Direct dependency snapshot validated on Linux / Python 3.12.14, 2026-11-10.
+# This is not a full transitive lock or evidence of native Mac/Windows tests.
+# Optional reproduction: python -m pip install -c requirements-tested.txt .
+fastapi==0.162.2
+uvicorn==0.54.0
+pydantic==2.14.3
+httpx==0.28.1
+Pillow==13.0.0
+python-multipart==0.0.33
+imageio-ffmpeg==0.6.0
+mcp==1.30.0

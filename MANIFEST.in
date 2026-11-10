@@ -1,0 +1,18 @@
+include README.md LICENSE requirements-tested.txt
+include start-macos.command start-windows.cmd
+include Dockerfile compose.yaml .dockerignore
+recursive-include frameva/static *
+recursive-include frameva/workflows *.json
+recursive-include scripts *.py
+recursive-include docs *.md
+recursive-include tests *.py
+recursive-include .github/workflows *.yml
+recursive-include macos *.swift *.py *.plist *.md *.sh *.spec *.entitlements
+recursive-include examples/live-demo *.html *.css *.js *.json *.md
+prune macos/.build
+prune macos/build
+prune macos/dist
+prune .venv
+prune node_modules
+prune .openai
+global-exclude __pycache__ *.py[cod]

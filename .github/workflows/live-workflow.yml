@@ -1,0 +1,32 @@
+name: Real browser launch film acceptance
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-film:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install recorder and tests
+        run: python -m pip install -e ".[dev,capture]"
+      - name: Install Chromium
+        run: python -m frameva install-browser
+      - name: Record the actual app workflow and export the film
+        run: python scripts/verify_live_demo.py --output-directory live-demo-output
+      - name: Retain generated film and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frameva-live-film-${{ matrix.os }}
+          path: live-demo-output/*
+          if-no-files-found: ignore

@@ -1,0 +1,48 @@
+name: Native macOS application
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'macos/**'
+      - 'frameva/**'
+      - 'pyproject.toml'
+      - '.github/workflows/native-macos.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'macos/**'
+      - 'frameva/**'
+      - 'pyproject.toml'
+      - '.github/workflows/native-macos.yml'
+permissions:
+  contents: read
+concurrency:
+  group: native-macos-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build-native:
+    runs-on: macos-15
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Report actual build platform
+        run: |
+          sw_vers
+          uname -m
+          xcodebuild -version
+          swift --version
+      - name: Build, test, ad-hoc sign, and smoke bundled worker
+        run: bash macos/scripts/build.sh
+      - name: Archive the actual native app
+        run: |
+          build_arch="$(uname -m)"
+          ditto -c -k --keepParent "dist/native-$build_arch/Frameva.app" "dist/Frameva-macos-$build_arch-unsigned.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Frameva-macOS-${{ runner.arch }}-development
+          path: dist/Frameva-macos-*-unsigned.zip
+          if-no-files-found: error
+          retention-days: 14

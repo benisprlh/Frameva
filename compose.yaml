@@ -1,0 +1,15 @@
+# Linux only: host networking retains the application's loopback-only binding.
+# macOS/Windows: use the native launchers, not this compose configuration.
+services:
+  frameva:
+    build: .
+    network_mode: host
+    volumes:
+      - frameva-data:/data
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+volumes:
+  frameva-data:
